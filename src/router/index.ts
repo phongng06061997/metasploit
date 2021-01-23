@@ -1,24 +1,38 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import Login from '@/pages/Login.vue';
+import MainSlot from '@/components/layout/MainSlot.vue';
+import homeRoutes from './home'
 Vue.use(Router);
+
+
+const routes = [
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/',
+        component: MainSlot,
+        children: [
+            ...homeRoutes 
+
+        ],
+        redirect: { name: 'Home' },
+        meta: {
+        requiresAuth: true,
+        }
+    }
+]
 
 const router = new Router({
     mode: 'history',
-    base: process.env.BASE_URL,
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-        },
-        {
-            path: '/about',
-            name: 'about',
-            meta: {
-                authRequired: true
-            }
-        }
-    ]
+    routes
 });
 
 export default router;
